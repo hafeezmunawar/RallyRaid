@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RallyRaidWebApi", "RallyRaidWebApi\RallyRaidWebApi.csproj", "{6B96D549-3CF7-4C11-B7FE-75D74124B3C0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8ACC2228-BB26-45A4-8AC6-3A479F933D44}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{4E078173-E130-4B35-BDA9-6363371DFF12}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6B96D549-3CF7-4C11-B7FE-75D74124B3C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B96D549-3CF7-4C11-B7FE-75D74124B3C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B96D549-3CF7-4C11-B7FE-75D74124B3C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B96D549-3CF7-4C11-B7FE-75D74124B3C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8ACC2228-BB26-45A4-8AC6-3A479F933D44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8ACC2228-BB26-45A4-8AC6-3A479F933D44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACC2228-BB26-45A4-8AC6-3A479F933D44}.Release|Any CPU.ActiveCfg = Release|Any CPU
