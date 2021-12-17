@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RallyRaidWebApi", "RallyRaidWebApi.csproj", "{9D27AD5C-AFC4-4ABC-A698-D5C91DB29CFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RallyRaidWebApi", "RallyRaidWebApi\RallyRaidWebApi.csproj", "{A5F9BFC6-B559-4E79-82C2-690DDA9E79C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9D27AD5C-AFC4-4ABC-A698-D5C91DB29CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D27AD5C-AFC4-4ABC-A698-D5C91DB29CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D27AD5C-AFC4-4ABC-A698-D5C91DB29CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D27AD5C-AFC4-4ABC-A698-D5C91DB29CFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F9BFC6-B559-4E79-82C2-690DDA9E79C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F9BFC6-B559-4E79-82C2-690DDA9E79C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F9BFC6-B559-4E79-82C2-690DDA9E79C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F9BFC6-B559-4E79-82C2-690DDA9E79C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
