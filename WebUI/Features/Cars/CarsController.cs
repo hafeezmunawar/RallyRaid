@@ -24,7 +24,7 @@ namespace WebUI.Features.Cars
             return Ok(carList);
         }
 
-
+        //Get one car
         [HttpGet]
         [Route("{Id}")]
         public ActionResult<Car> GetCar(int Id)
@@ -32,5 +32,47 @@ namespace WebUI.Features.Cars
             return Ok(new Car { TeamName = "Team A", Speed = 100, MelfunctionChance = 0.2 });
         }
 
+
+        //Create Car
+        [HttpPost]
+
+        public ActionResult<Car> CreateCar(Car car)
+        {
+            var newCar = new Car
+            {
+                Id = car.Id,
+                TeamName = car.TeamName,
+                Speed = car.Speed,
+                MelfunctionChance = car.MelfunctionChance
+            };
+
+            return Ok(newCar);
+        }
+
+
+        //Update Car
+
+        [HttpPut]
+        [Route("{Id}")]
+        public ActionResult<Car> UpdateCar(Car car)
+        {
+            var updatedCar = new Car
+            {
+                Id = car.Id,
+                TeamName = car.TeamName,
+                Speed = car.Speed,
+                MelfunctionChance = car.MelfunctionChance
+            };
+
+            return Ok(updatedCar);
+        }
+
+        //Delete Car
+        [HttpDelete]
+        [Route("{Id}")]
+        public ActionResult DeleteCar(int Id)
+        {
+            return Ok($"Car with Id {Id} was successfully deleted");
+        }
     }
 }
