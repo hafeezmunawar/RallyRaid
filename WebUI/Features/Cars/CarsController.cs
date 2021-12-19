@@ -23,5 +23,14 @@ namespace WebUI.Features.Cars
 
             return Ok(carList);
         }
+
+
+        [HttpGet]
+        [Route("{Id}")]
+        public ActionResult<Car> GetCar(int Id)
+        {
+            return Ok(new Car { TeamName = "Team A", Speed = 100, MelfunctionChance = 0.2 });
+        }
+
     }
 }
