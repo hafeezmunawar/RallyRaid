@@ -1,6 +1,8 @@
 ﻿using Domain.Entitties;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WebUI.Features.Cars
 {
@@ -8,20 +10,20 @@ namespace WebUI.Features.Cars
     [ApiController]
     public class CarsController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+
+        public CarsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+
+
         //Get list of cars
         [HttpGet]
         public ActionResult<List<Car>> GetCars()
         {
-            var carList = new List<Car>
-            {
-
-                new Car { TeamName = "Team A", Speed = 100, MelfunctionChance = 0.2},
-                new Car { TeamName = "Team B", Speed = 120, MelfunctionChance = 0.3},
-                new Car { TeamName = "Team C", Speed = 98, MelfunctionChance = 0.1},
-                new Car { TeamName = "Team D", Speed = 101, MelfunctionChance = 0.5}
-
-            };
-
+            var carList = _context.Cars.ToList();
             return Ok(carList);
         }
 
@@ -30,7 +32,11 @@ namespace WebUI.Features.Cars
         [Route("{Id}")]
         public ActionResult<Car> GetCar(int Id)
         {
-            return Ok(new Car { TeamName = "Team A", Speed = 100, MelfunctionChance = 0.2 });
+            var car = _context.Cars.FirstOrDefault(c => c.Id == Id);
+            if (car == null)
+                return NotFound($"Car with Id {Id} not found");
+
+            return Ok(car);
         }
 
 
@@ -39,15 +45,9 @@ namespace WebUI.Features.Cars
 
         public ActionResult<Car> CreateCar(Car car)
         {
-            var newCar = new Car
-            {
-                Id = car.Id,
-                TeamName = car.TeamName,
-                Speed = car.Speed,
-                MelfunctionChance = car.MelfunctionChance
-            };
-
-            return Ok(newCar);
+            _context.Cars.Add(car);
+            _context.SaveChanges();
+            return Ok(car);
         }
 
 
@@ -55,17 +55,18 @@ namespace WebUI.Features.Cars
 
         [HttpPut]
         [Route("{Id}")]
-        public ActionResult<Car> UpdateCar(Car car)
+        public ActionResult<Car> UpdateCar(Car car, int Id)
         {
-            var updatedCar = new Car
-            {
-                Id = car.Id,
-                TeamName = car.TeamName,
-                Speed = car.Speed,
-                MelfunctionChance = car.MelfunctionChance
-            };
+            var dbCar = _context.Cars.FirstOrDefault(c => c.Id == Id);
+            if (dbCar == null)
+                return NotFound($"Car with Id {car.Id} not found");
 
-            return Ok(updatedCar);
+            dbCar.TeamName = car.TeamName;
+            dbCar.Speed = car.Speed;
+            dbCar.MelfunctionChance = car.MelfunctionChance;
+            _context.SaveChanges();
+
+            return Ok(dbCar);
         }
 
         //Delete Car
@@ -73,7 +74,15 @@ namespace WebUI.Features.Cars
         [Route("{Id}")]
         public ActionResult DeleteCar(int Id)
         {
-            return Ok($"Car with Id {Id} was successfully deleted");
+            var dbCar = _context.Cars.FirstOrDefault(c => c.Id == Id);
+            if (dbCar == null)
+                return NotFound($"Car with Id {Id} not found");
+
+            _context.Remove(dbCar);
+            _context.SaveChanges();
+
+            return Ok($"Car with Id {Id} deleted");
+
         }
     }
 }
