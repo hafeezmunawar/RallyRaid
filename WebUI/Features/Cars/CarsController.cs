@@ -8,6 +8,7 @@ namespace WebUI.Features.Cars
     [ApiController]
     public class CarsController : ControllerBase
     {
+        //Get list of cars
         [HttpGet]
         public ActionResult<List<Car>> GetCars()
         {
