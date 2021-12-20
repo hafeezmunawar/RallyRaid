@@ -1,6 +1,8 @@
 ﻿using Domain.Entitties;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WebUI.Features.MotorBikes
 {
@@ -8,20 +10,23 @@ namespace WebUI.Features.MotorBikes
     [ApiController]
     public class MotorbikesController : ControllerBase
     {
+
+
+        #region DbContext
+        private readonly ApplicationDbContext _context;
+
+        public MotorbikesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        #endregion
+
         //Get list of motorBikes
         [HttpGet]
         public ActionResult<List<Motorbike>> GetMotorbikes()
         {
-            var motorbikeList = new List<Motorbike>
-            {
-
-                new Motorbike { TeamName = "Team A", Speed = 100, MelfunctionChance = 0.2},
-                new Motorbike { TeamName = "Team B", Speed = 120, MelfunctionChance = 0.3},
-                new Motorbike { TeamName = "Team C", Speed = 98, MelfunctionChance = 0.1},
-                new Motorbike { TeamName = "Team D", Speed = 101, MelfunctionChance = 0.5}
-
-            };
-
+            var motorbikeList = _context.Motorbikes.ToList();
             return Ok(motorbikeList);
         }
 
@@ -31,7 +36,11 @@ namespace WebUI.Features.MotorBikes
         [Route("{Id}")]
         public ActionResult<Motorbike> GetMotorbike(int Id)
         {
-            return Ok(new Motorbike { TeamName = "Team A", Speed = 100, MelfunctionChance = 0.2 });
+            var motorbike = _context.Motorbikes.FirstOrDefault(c => c.Id == Id);
+            if (motorbike == null)
+                return NotFound($"motorbike with Id {Id} not found");
+
+            return Ok(motorbike);
         }
 
 
@@ -40,15 +49,9 @@ namespace WebUI.Features.MotorBikes
 
         public ActionResult<Motorbike> CreateCar(Motorbike bike)
         {
-            var newMotorBike = new Motorbike
-            {
-                Id = bike.Id,
-                TeamName = bike.TeamName,
-                Speed = bike.Speed,
-                MelfunctionChance = bike.MelfunctionChance
-            };
-
-            return Ok(newMotorBike);
+            _context.Motorbikes.Add(bike);
+            _context.SaveChanges();
+            return Ok(bike);
         }
 
 
@@ -56,17 +59,18 @@ namespace WebUI.Features.MotorBikes
 
         [HttpPut]
         [Route("{Id}")]
-        public ActionResult<Motorbike> UpdateMotorbike(Motorbike bike)
+        public ActionResult<Motorbike> UpdateMotorbike(Motorbike bike, int Id)
         {
-            var updatedBike = new Car
-            {
-                Id = bike.Id,
-                TeamName = bike.TeamName,
-                Speed = bike.Speed,
-                MelfunctionChance = bike.MelfunctionChance
-            };
+            var dbMotorBike = _context.Motorbikes.FirstOrDefault(m => m.Id == Id);
+            if (dbMotorBike == null)
+                return NotFound($"Bike with Id {Id} not found");
 
-            return Ok(updatedBike);
+            dbMotorBike.TeamName = bike.TeamName;
+            dbMotorBike.Speed = bike.Speed;
+            dbMotorBike.MelfunctionChance = bike.MelfunctionChance;
+            _context.SaveChanges();
+
+            return Ok(dbMotorBike);
         }
 
         //Delete Car
@@ -74,7 +78,14 @@ namespace WebUI.Features.MotorBikes
         [Route("{Id}")]
         public ActionResult DeleteMotorbike(int Id)
         {
-            return Ok($"Motorbike with Id {Id} was successfully deleted");
+            var dbMotorBike = _context.Motorbikes.FirstOrDefault(m => m.Id == Id);
+            if (dbMotorBike == null)
+                return NotFound($"Motorbike with Id {Id} not found");
+
+            _context.Remove(dbMotorBike);
+            _context.SaveChanges();
+
+            return Ok($"Motorbike with Id {Id} deleted");
         }
     }
 
