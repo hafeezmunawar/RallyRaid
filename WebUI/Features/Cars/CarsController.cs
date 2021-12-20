@@ -3,6 +3,7 @@ using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebUI.Features.Cars.Models;
 
 namespace WebUI.Features.Cars
 {
@@ -10,6 +11,7 @@ namespace WebUI.Features.Cars
     [ApiController]
     public class CarsController : ControllerBase
     {
+        #region ApplicationDbContext
         private readonly ApplicationDbContext _context;
 
         public CarsController(ApplicationDbContext context)
@@ -17,6 +19,7 @@ namespace WebUI.Features.Cars
             _context = context;
         }
 
+        #endregion
 
 
         //Get list of cars
@@ -43,11 +46,19 @@ namespace WebUI.Features.Cars
         //Create Car
         [HttpPost]
 
-        public ActionResult<Car> CreateCar(Car car)
+        public ActionResult<Car> CreateCar(CarCreateModel carModel)
         {
-            _context.Cars.Add(car);
+
+            var newCar = new Car
+            {
+                TeamName = carModel.TeamName,
+                Speed = carModel.Speed,
+                MelfunctionChance = carModel.MelfunctionChance
+            };
+
+            _context.Cars.Add(newCar);
             _context.SaveChanges();
-            return Ok(car);
+            return Ok(carModel);
         }
 
 
@@ -55,15 +66,15 @@ namespace WebUI.Features.Cars
 
         [HttpPut]
         [Route("{Id}")]
-        public ActionResult<Car> UpdateCar(Car car, int Id)
+        public ActionResult<Car> UpdateCar(CarUpdateModel carModel, int Id)
         {
             var dbCar = _context.Cars.FirstOrDefault(c => c.Id == Id);
             if (dbCar == null)
-                return NotFound($"Car with Id {car.Id} not found");
+                return NotFound($"Car with Id {Id} not found");
 
-            dbCar.TeamName = car.TeamName;
-            dbCar.Speed = car.Speed;
-            dbCar.MelfunctionChance = car.MelfunctionChance;
+            dbCar.TeamName = carModel.TeamName;
+            dbCar.Speed = carModel.Speed;
+            dbCar.MelfunctionChance = carModel.MelfunctionChance;
             _context.SaveChanges();
 
             return Ok(dbCar);
