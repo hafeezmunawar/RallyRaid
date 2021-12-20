@@ -3,6 +3,7 @@ using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebUI.Features.Motorbikes.Models;
 
 namespace WebUI.Features.MotorBikes
 {
@@ -44,14 +45,21 @@ namespace WebUI.Features.MotorBikes
         }
 
 
-        //Create Car
+        //Create CreateMotorbike
         [HttpPost]
 
-        public ActionResult<Motorbike> CreateCar(Motorbike bike)
+        public ActionResult<Motorbike> CreateMotorbike(MotorbikeCreateModel motorBikeModel)
         {
-            _context.Motorbikes.Add(bike);
+            var newBike = new Motorbike
+            {
+                TeamName = motorBikeModel.TeamName,
+                Speed = motorBikeModel.Speed,
+                MelfunctionChance = motorBikeModel.MelfunctionChance
+            };
+
+            _context.Motorbikes.Add(newBike);
             _context.SaveChanges();
-            return Ok(bike);
+            return Ok(newBike);
         }
 
 
@@ -59,15 +67,15 @@ namespace WebUI.Features.MotorBikes
 
         [HttpPut]
         [Route("{Id}")]
-        public ActionResult<Motorbike> UpdateMotorbike(Motorbike bike, int Id)
+        public ActionResult<Motorbike> UpdateMotorbike(MotorbikeUpdateModel motorBikeModel, int Id)
         {
             var dbMotorBike = _context.Motorbikes.FirstOrDefault(m => m.Id == Id);
             if (dbMotorBike == null)
                 return NotFound($"Bike with Id {Id} not found");
 
-            dbMotorBike.TeamName = bike.TeamName;
-            dbMotorBike.Speed = bike.Speed;
-            dbMotorBike.MelfunctionChance = bike.MelfunctionChance;
+            dbMotorBike.TeamName = motorBikeModel.TeamName;
+            dbMotorBike.Speed = motorBikeModel.Speed;
+            dbMotorBike.MelfunctionChance = motorBikeModel.MelfunctionChance;
             _context.SaveChanges();
 
             return Ok(dbMotorBike);

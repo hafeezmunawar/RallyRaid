@@ -12,6 +12,7 @@ namespace WebUI.Features.Cars
     public class CarsController : ControllerBase
     {
         #region ApplicationDbContext
+
         private readonly ApplicationDbContext _context;
 
         public CarsController(ApplicationDbContext context)
@@ -45,7 +46,6 @@ namespace WebUI.Features.Cars
 
         //Create Car
         [HttpPost]
-
         public ActionResult<Car> CreateCar(CarCreateModel carModel)
         {
 
@@ -58,7 +58,8 @@ namespace WebUI.Features.Cars
 
             _context.Cars.Add(newCar);
             _context.SaveChanges();
-            return Ok(carModel);
+
+            return Ok(newCar);
         }
 
 

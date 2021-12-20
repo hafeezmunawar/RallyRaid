@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.Features.CarRaces.Models;
+using WebUI.Features.CarRaces.Services;
 
 namespace WebUI.Features.CarRaces
 {
@@ -22,6 +23,8 @@ namespace WebUI.Features.CarRaces
 
 
         #endregion
+
+        public CarRaceService carRaceService { get; set; } = new CarRaceService();
 
         //Get list of Car Races
         [HttpGet]
@@ -105,9 +108,10 @@ namespace WebUI.Features.CarRaces
             }
 
             carRace.Status = "Started";
+            var finishedRace = carRaceService.RunRace(carRace);
             _context.SaveChanges();
 
-            return Ok(carRace);
+            return Ok(finishedRace);
         }
 
         [HttpPut]

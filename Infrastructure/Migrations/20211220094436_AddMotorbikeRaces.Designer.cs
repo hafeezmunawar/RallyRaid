@@ -4,14 +4,16 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211220094436_AddMotorbikeRaces")]
+    partial class AddMotorbikeRaces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,8 +34,8 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DistanceCoveredInMiles")
                         .HasColumnType("int");
 
-                    b.Property<bool>("FinishedRace")
-                        .HasColumnType("bit");
+                    b.Property<int>("FinishedRace")
+                        .HasColumnType("int");
 
                     b.Property<double>("MelfunctionChance")
                         .HasColumnType("float");
